@@ -15,7 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Send email button
-  document.getElementById("compose-form").onsubmit = () => send_email();
+  document.getElementById("compose-send").onclick = (event) => {
+    send_email();
+    composeView.classList.toggle("show-compose");
+    event.preventDefault();
+  };
 
   // By default, load the inbox
   load_mailbox("inbox");
@@ -46,7 +50,7 @@ function send_email() {
   })
     .then((response) => response.json())
     .then((result) => {
-      console.log(result);
+      load_mailbox("sent");
     });
 }
 
@@ -66,11 +70,17 @@ function load_mailbox(mailbox) {
   fetch(`/emails/${mailbox}`)
     .then((response) => response.json())
     .then((data) => {
-      data.forEach((email) => {
-        const emailDiv = createEmailDiv(email);
-
-        emailsContainer.append(emailDiv);
-      });
+      if (data.length !== 0) {
+        data.forEach((email) => {
+          const emailDiv = createEmailDiv(email);
+          emailsContainer.append(emailDiv);
+        });
+      } else {
+        const noEmail = document.createElement("p");
+        noEmail.classList.add("emails-noemail");
+        noEmail.innerHTML = `No ${mailbox} email!`;
+        emailsContainer.append(noEmail);
+      }
     });
 }
 
@@ -87,7 +97,7 @@ function createEmailDiv(email) {
       <p>${email.timestamp}</p>
     </div>
     `;
-
+  emailDiv.classList.add("pl-4");
   return emailDiv;
 }
 

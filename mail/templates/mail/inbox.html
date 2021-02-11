@@ -7,7 +7,7 @@
   </div>
 
   <div class="inbox-header">
-    <div class="m-flex px-3">
+    <div class="m-flex px-4">
       <span>{{ request.user.email }}</span>
       <a class="btn btn-sm btn-outline-dark" href="{% url 'logout' %}"
         >Log Out</a
@@ -17,7 +17,7 @@
 
   <div class="inbox-menu">
     <div class="m-flex pt-3">
-      <button class="mb-3 pl-4 py-1" id="compose">Compose</button>
+      <button class="mx-auto mb-3 px-3 py-1" id="compose">Compose</button>
       <button class="pl-4 py-1" id="inbox">Inbox</button>
       <button class="pl-4 py-1" id="sent">Sent</button>
       <button class="pl-4 py-1" id="archived">Archived</button>
@@ -25,8 +25,8 @@
   </div>
 
   <div class="inbox-content">
-    <div id="emails-view" class="pt-2 px-4">
-      <div id="emails-header"></div>
+    <div id="emails-view" class="pr-4 pb-4">
+      <div id="emails-header" class="px-4"></div>
       <div id="emails-container"></div>
     </div>
 
@@ -54,11 +54,13 @@
               class="mb-1 p-1"
               placeholder="Body"
             ></textarea>
-            <input
+            <button
               id="compose-send"
               type="submit"
               class="btn btn-primary py-1 px-3"
-            />
+            >
+              Send
+            </button>
           </form>
         </div>
       </div>
