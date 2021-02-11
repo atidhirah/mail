@@ -1,0 +1,70 @@
+{% extends "mail/layout.html" %} {% load static %} {% block body %}
+<div class="inbox-container">
+  <div class="inbox-logo">
+    <div class="m-flex">
+      <span>MyMail</span>
+    </div>
+  </div>
+
+  <div class="inbox-header">
+    <div class="m-flex px-3">
+      <span>{{ request.user.email }}</span>
+      <a class="btn btn-sm btn-outline-dark" href="{% url 'logout' %}"
+        >Log Out</a
+      >
+    </div>
+  </div>
+
+  <div class="inbox-menu">
+    <div class="m-flex pt-3">
+      <button class="mb-3 pl-4 py-1" id="compose">Compose</button>
+      <button class="pl-4 py-1" id="inbox">Inbox</button>
+      <button class="pl-4 py-1" id="sent">Sent</button>
+      <button class="pl-4 py-1" id="archived">Archived</button>
+    </div>
+  </div>
+
+  <div class="inbox-content">
+    <div id="emails-view" class="pt-2 px-2">
+      <div id="emails-header"></div>
+      <div id="emails-container"></div>
+    </div>
+
+    <div id="compose-view">
+      <div class="card">
+        <div class="card-header bg-dark text-light py-2">
+          <span>New Email</span>
+        </div>
+
+        <div class="card-body pt-1">
+          <form id="compose-form">
+            <input
+              id="compose-sender"
+              type="hidden"
+              value="{{request.user.email}}"
+            />
+            <input id="compose-recipients" class="p-1" placeholder="To" />
+            <input
+              id="compose-subject"
+              class="mb-1 p-1"
+              placeholder="Subject"
+            />
+            <textarea
+              id="compose-body"
+              class="mb-1 p-1"
+              placeholder="Body"
+            ></textarea>
+            <input
+              id="compose-send"
+              type="submit"
+              class="btn btn-primary py-1 px-3"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script src="{% static 'mail/inbox.js' %}"></script>
+{% endblock %}
