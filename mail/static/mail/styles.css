@@ -14,6 +14,12 @@
   background: #555;
 }
 
+p,
+span {
+  padding: 0;
+  margin: 0;
+}
+
 .login-container,
 .register-container {
   height: 100vh;
@@ -98,6 +104,36 @@
 #emails-view {
   height: 100%;
   overflow-y: auto;
+}
+
+#emails-container > div {
+  height: 3rem;
+  display: grid;
+  grid-template-columns: 4fr 7fr 1fr;
+  align-items: center;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.emails-data {
+  color: grey;
+  width: 100%;
+  overflow: hidden;
+}
+
+.emails-data p {
+  width: calc(100%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.emails-data span {
+  color: black;
+  font-weight: bold;
+}
+
+.emails-time {
+  text-align: end;
 }
 
 #compose-view {

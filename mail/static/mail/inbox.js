@@ -54,25 +54,41 @@ function load_mailbox(mailbox) {
   disableMenuBtn(mailbox);
 
   // Show the mailbox name
-  emailsHeader = document.getElementById("emails-header");
+  const emailsHeader = document.getElementById("emails-header");
   emailsHeader.innerHTML = `<h3>${
     mailbox.charAt(0).toUpperCase() + mailbox.slice(1)
   }</h3>`;
 
   // Remove email data and fetch new data
-  emailsContainer = document.getElementById("emails-container");
+  const emailsContainer = document.getElementById("emails-container");
   emailsContainer.innerHTML = "";
 
   fetch(`/emails/${mailbox}`)
     .then((response) => response.json())
     .then((data) => {
       data.forEach((email) => {
-        emailDiv = document.createElement("div");
-        emailDiv.innerHTML = `<p>${email.subject}</p>`;
+        const emailDiv = createEmailDiv(email);
 
         emailsContainer.append(emailDiv);
       });
     });
+}
+
+function createEmailDiv(email) {
+  const emailDiv = document.createElement("div");
+  emailDiv.innerHTML = `
+    <div class="emails-sender">
+      <p>${email.sender}</p>
+    </div>
+    <div class="emails-data">
+      <p><span>${email.subject}</span> - ${email.body}</p>
+    </div>
+    <div class="emails-time">
+      <p>${email.timestamp}</p>
+    </div>
+    `;
+
+  return emailDiv;
 }
 
 function disableMenuBtn(btnId) {

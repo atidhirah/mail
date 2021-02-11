@@ -25,7 +25,7 @@ class Email(models.Model):
             "recipients": [user.email for user in self.recipients.all()],
             "subject": self.subject,
             "body": self.body,
-            "timestamp": self.timestamp.strftime("%d %m %Y, %H:%M:%S"),
+            "timestamp": self.timestamp.strftime("%b %d"),
             "read": self.read,
             "archived": self.archived
         }
