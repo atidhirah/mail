@@ -29,3 +29,5 @@ const sendEmailData = (email, title, message) => {
       return result;
     });
 };
+
+export { getEmailsData, getEmailData, sendEmailData };

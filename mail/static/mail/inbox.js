@@ -1,24 +1,18 @@
-const btnInboxMenu = document.querySelectorAll(".inbox-menu button");
-const emailsView = document.getElementById("emails-view");
-const composeView = document.getElementById("compose-view");
-const detailView = document.getElementById("detail-view");
+import * as component from "./component.js";
+import * as data from "./data.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Use buttons to toggle between views
-  btnInboxMenu.forEach((btn) => {
+  document.querySelectorAll(".inbox-menu button").forEach((btn) => {
     btn.onclick = () => {
-      if (btn.id === "compose") {
-        composeEmail();
-      } else {
-        loadMailbox(btn.id);
-      }
+      btn.id === "compose" ? composeEmail() : loadMailbox(btn.id);
     };
   });
 
   // Send email button event listener
-  document.getElementById("compose-send").onclick = (event) => {
+  document.getElementById("compose-send").onclick = (e) => {
     sendEmail();
-    event.preventDefault();
+    e.preventDefault();
   };
 
   // By default, load the inbox
@@ -27,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const composeEmail = () => {
   // Show compose view
-  composeView.classList.toggle("show-compose");
+  document.getElementById("compose-view").classList.toggle("show-compose");
 
   // Clear out composition fields
   document.getElementById("compose-recipients").value = "";
@@ -36,56 +30,63 @@ const composeEmail = () => {
 };
 
 const sendEmail = () => {
+  const composeView = document.getElementById("compose-view");
   const email = document.getElementById("compose-recipients").value;
   const title = document.getElementById("compose-subject").value;
   const message = document.getElementById("compose-body").value;
 
   // Send the email, go to 'sent' section and close compose view
-  sendEmailData(email, title, message).then(() => {
+  data.sendEmailData(email, title, message).then(() => {
     loadMailbox("sent");
     composeView.classList.toggle("show-compose");
   });
 };
 
 const loadMailbox = (mailbox) => {
+  const emailsView = document.getElementById("emails-view");
+  const detailView = document.getElementById("detail-view");
+
   const emailsHeader = document.getElementById("emails-header");
   const emailsContainer = document.getElementById("emails-container");
 
-  // Show mailbox view and hide email detail view
+  // *Show mailbox view and hide email detail view
   emailsView.style.display = "block";
   detailView.style.display = "none";
 
-  // Disable the button
+  // *Disable the button
   disableMenuBtn(mailbox);
 
-  // Show the mailbox name
+  // *Show the mailbox name
   emailsHeader.innerHTML = "";
-  emailsHeader.append(headerElement(mailbox));
+  emailsHeader.append(component.headerElement(mailbox));
 
-  // Remove previous data and fetch new data
+  // *Remove previous data and fetch new data
   emailsContainer.innerHTML = "";
-  getEmailsData(mailbox).then((emails) => {
+  data.getEmailsData(mailbox).then((emails) => {
     if (emails.length === 0) {
-      emailsContainer.append(noEmailElement(mailbox));
+      emailsContainer.append(component.noEmailElement(mailbox));
     } else {
       emails.forEach((email) => {
-        const element = emailElement(email);
-        element.onclick = () => emailDetail(email.id);
+        const element = component.emailElement(email);
+        element.onclick = () => detailEmail(email.id);
         emailsContainer.append(element);
       });
     }
   });
 };
 
-const emailDetail = (id) => {
-  getEmailData(id).then((email) => {
+const detailEmail = (id) => {
+  const emailsView = document.getElementById("emails-view");
+  const detailView = document.getElementById("detail-view");
+
+  data.getEmailData(id).then((email) => {
     // Show mailbox view and hide email detail view
     emailsView.style.display = "none";
     detailView.style.display = "block";
 
     // Clear old child element and append a new one
     detailView.innerHTML = "";
-    detailView.append(emailDetailElement(email));
+    detailView.append(component.emailDetailElement(email));
 
     // Activate all menu button
     enableAllMenuBtn();
@@ -93,7 +94,7 @@ const emailDetail = (id) => {
 };
 
 const disableMenuBtn = (btnId) => {
-  btnInboxMenu.forEach((btn) => {
+  document.querySelectorAll(".inbox-menu button").forEach((btn) => {
     if (btn.id === btnId) {
       btn.disabled = true;
       btn.classList.add("active-inbox-button");
@@ -105,7 +106,7 @@ const disableMenuBtn = (btnId) => {
 };
 
 const enableAllMenuBtn = () => {
-  btnInboxMenu.forEach((btn) => {
+  document.querySelectorAll(".inbox-menu button").forEach((btn) => {
     btn.disabled = false;
     btn.classList.remove("active-inbox-button");
   });
