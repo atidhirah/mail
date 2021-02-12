@@ -1,5 +1,6 @@
+import "./components/emailSummary.js";
 import * as component from "./component.js";
-import * as data from "./data.js";
+import Data from "./data.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // Use buttons to toggle between views
@@ -36,7 +37,7 @@ const sendEmail = () => {
   const message = document.getElementById("compose-body").value;
 
   // Send the email, go to 'sent' section and close compose view
-  data.sendEmailData(email, title, message).then(() => {
+  Data.sendEmail(email, title, message).then(() => {
     loadMailbox("sent");
     composeView.classList.toggle("show-compose");
   });
@@ -62,12 +63,13 @@ const loadMailbox = (mailbox) => {
 
   // *Remove previous data and fetch new data
   emailsContainer.innerHTML = "";
-  data.getEmailsData(mailbox).then((emails) => {
+  Data.getEmails(mailbox).then((emails) => {
     if (emails.length === 0) {
       emailsContainer.append(component.noEmailElement(mailbox));
     } else {
       emails.forEach((email) => {
-        const element = component.emailElement(email);
+        const element = document.createElement("email-summary");
+        element.emailData = email;
         element.onclick = () => detailEmail(email.id);
         emailsContainer.append(element);
       });
@@ -79,7 +81,7 @@ const detailEmail = (id) => {
   const emailsView = document.getElementById("emails-view");
   const detailView = document.getElementById("detail-view");
 
-  data.getEmailData(id).then((email) => {
+  Data.getEmail(id).then((email) => {
     // Show mailbox view and hide email detail view
     emailsView.style.display = "none";
     detailView.style.display = "block";

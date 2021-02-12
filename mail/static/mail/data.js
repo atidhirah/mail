@@ -1,33 +1,34 @@
-const getEmailsData = (mailbox) => {
-  return fetch(`/emails/${mailbox}`)
-    .then((response) => response.json())
-    .then((emails) => {
-      console.log(emails);
-      return emails;
-    });
-};
+class Data {
+  static getEmails(mailbox) {
+    return fetch(`/emails/${mailbox}`)
+      .then((response) => response.json())
+      .then((emails) => {
+        return Promise.resolve(emails);
+      });
+  }
 
-const getEmailData = (id) => {
-  return fetch(`/emails/${id}`)
-    .then((response) => response.json())
-    .then((email) => {
-      return email;
-    });
-};
+  static getEmail(id) {
+    return fetch(`/emails/${id}`)
+      .then((response) => response.json())
+      .then((email) => {
+        return Promise.resolve(email);
+      });
+  }
 
-const sendEmailData = (email, title, message) => {
-  return fetch(`/emails`, {
-    method: "POST",
-    body: JSON.stringify({
-      recipients: email,
-      subject: title,
-      body: message,
-    }),
-  })
-    .then((response) => response.json)
-    .then((result) => {
-      return result;
-    });
-};
+  static sendEmail(email, title, message) {
+    return fetch(`/emails`, {
+      method: "POST",
+      body: JSON.stringify({
+        recipients: email,
+        subject: title,
+        body: message,
+      }),
+    })
+      .then((response) => response.json)
+      .then((result) => {
+        return result;
+      });
+  }
+}
 
-export { getEmailsData, getEmailData, sendEmailData };
+export default Data;
