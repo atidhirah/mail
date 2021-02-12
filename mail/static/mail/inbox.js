@@ -1,31 +1,31 @@
 const btnInboxMenu = document.querySelectorAll(".inbox-menu button");
 const emailsView = document.getElementById("emails-view");
 const composeView = document.getElementById("compose-view");
-const emailView = document.getElementById("email-view");
+const detailView = document.getElementById("detail-view");
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   // Use buttons to toggle between views
   btnInboxMenu.forEach((btn) => {
     btn.onclick = () => {
       if (btn.id === "compose") {
-        compose_email();
+        composeEmail();
       } else {
-        load_mailbox(btn.id);
+        loadMailbox(btn.id);
       }
     };
   });
 
-  // Send email button
+  // Send email button event listener
   document.getElementById("compose-send").onclick = (event) => {
-    send_email();
+    sendEmail();
     event.preventDefault();
   };
 
   // By default, load the inbox
-  load_mailbox("inbox");
+  loadMailbox("inbox");
 });
 
-function compose_email() {
+const composeEmail = () => {
   // Show compose view
   composeView.classList.toggle("show-compose");
 
@@ -33,51 +33,64 @@ function compose_email() {
   document.getElementById("compose-recipients").value = "";
   document.getElementById("compose-subject").value = "";
   document.getElementById("compose-body").value = "";
-}
+};
 
-function send_email() {
+const sendEmail = () => {
   const email = document.getElementById("compose-recipients").value;
   const title = document.getElementById("compose-subject").value;
   const message = document.getElementById("compose-body").value;
 
   // Send the email, go to 'sent' section and close compose view
   sendEmailData(email, title, message).then(() => {
-    load_mailbox("sent");
+    loadMailbox("sent");
     composeView.classList.toggle("show-compose");
   });
-}
+};
 
-function load_mailbox(mailbox) {
-  const mailHeader = document.getElementById("emails-header");
-  const mailContainer = document.getElementById("emails-container");
+const loadMailbox = (mailbox) => {
+  const emailsHeader = document.getElementById("emails-header");
+  const emailsContainer = document.getElementById("emails-container");
+
+  // Show mailbox view and hide email detail view
+  emailsView.style.display = "block";
+  detailView.style.display = "none";
 
   // Disable the button
   disableMenuBtn(mailbox);
 
   // Show the mailbox name
-  mailHeader.innerHTML = "";
-  mailHeader.append(emailsHeader(mailbox));
+  emailsHeader.innerHTML = "";
+  emailsHeader.append(headerElement(mailbox));
 
   // Remove previous data and fetch new data
-  mailContainer.innerHTML = "";
+  emailsContainer.innerHTML = "";
   getEmailsData(mailbox).then((emails) => {
     if (emails.length === 0) {
-      mailContainer.append(noEmailElement(mailbox));
+      emailsContainer.append(noEmailElement(mailbox));
     } else {
       emails.forEach((email) => {
         const element = emailElement(email);
-        element.onclick = () => email_detail(email.id);
-        mailContainer.append(element);
+        element.onclick = () => emailDetail(email.id);
+        emailsContainer.append(element);
       });
     }
   });
-}
+};
 
-function email_detail(id) {
+const emailDetail = (id) => {
   getEmailData(id).then((email) => {
-    console.log(email);
+    // Show mailbox view and hide email detail view
+    emailsView.style.display = "none";
+    detailView.style.display = "block";
+
+    // Clear old child element and append a new one
+    detailView.innerHTML = "";
+    detailView.append(emailDetailElement(email));
+
+    // Activate all menu button
+    enableAllMenuBtn();
   });
-}
+};
 
 const disableMenuBtn = (btnId) => {
   btnInboxMenu.forEach((btn) => {
