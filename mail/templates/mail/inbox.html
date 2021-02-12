@@ -65,9 +65,12 @@
         </div>
       </div>
     </div>
+
+    <div id="email-view"></div>
   </div>
 </div>
 {% endblock %} {% block script %}
-
+<script src="{% static 'mail/data.js'%}"></script>
+<script src="{% static 'mail/component.js'%}"></script>
 <script src="{% static 'mail/inbox.js' %}"></script>
 {% endblock %}
