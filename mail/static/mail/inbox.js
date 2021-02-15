@@ -37,7 +37,8 @@ const sendEmail = () => {
   const message = document.getElementById("compose-body").value;
 
   // Send the email, go to 'sent' section and close compose view
-  Data.sendEmail(email, title, message).then(() => {
+  Data.sendEmail(email, title, message).then((response) => {
+    console.log(response);
     loadMailbox("sent");
     composeView.classList.toggle("show-compose");
   });
@@ -82,6 +83,11 @@ const detailEmail = (id) => {
   const detailView = document.getElementById("detail-view");
 
   Data.getEmail(id).then((email) => {
+    if (email.read === false) {
+      Data.updateRead(email.id);
+    }
+
+    console.log(email);
     // Show mailbox view and hide email detail view
     emailsView.style.display = "none";
     detailView.style.display = "block";

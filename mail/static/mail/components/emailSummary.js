@@ -10,6 +10,7 @@ class EmailSummary extends HTMLElement {
     this._subject = data.subject;
     this._body = data.body;
     this._time = data.timestamp;
+    this._bg = data.read ? "rgba(128, 128, 128, 0.1)" : "white";
 
     this.render();
   }
@@ -18,6 +19,7 @@ class EmailSummary extends HTMLElement {
     this._shadowRoot.innerHTML = `
       <style>
         .wrapper {
+          background-color: ${this._bg};
           height: 3rem;
           display: grid;
           grid-template-columns: 4fr 7fr 1fr;

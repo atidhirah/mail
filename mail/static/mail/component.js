@@ -26,4 +26,4 @@ const emailDetailElement = (email) => {
   return element;
 };
 
-export { headerElement, emailElement, noEmailElement, emailDetailElement };
+export { headerElement, noEmailElement, emailDetailElement };

@@ -15,6 +15,17 @@ class Data {
       });
   }
 
+  static updateRead(id) {
+    return fetch(`/emails/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        read: true,
+      }),
+    }).then((result) => {
+      return result;
+    });
+  }
+
   static sendEmail(email, title, message) {
     return fetch(`/emails`, {
       method: "POST",
@@ -23,11 +34,12 @@ class Data {
         subject: title,
         body: message,
       }),
-    })
-      .then((response) => response.json)
-      .then((result) => {
-        return result;
-      });
+    }).then((response) => {
+      if (response.status !== 201) {
+        // TODO
+      }
+      return response.json();
+    });
   }
 }
 
