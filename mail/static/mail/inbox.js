@@ -1,4 +1,5 @@
 import "./components/emailSummary.js";
+import "./components/emailDetail.js";
 import * as component from "./component.js";
 import Data from "./data.js";
 
@@ -15,6 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
     sendEmail();
     e.preventDefault();
   };
+
+  // First time append custom element on detail view
+  const emailDetail = document.createElement("email-detail");
+  document.getElementById("detail-view").append(emailDetail);
 
   // By default, load the inbox
   loadMailbox("inbox");
@@ -34,14 +39,19 @@ const sendEmail = () => {
   const composeView = document.getElementById("compose-view");
   const email = document.getElementById("compose-recipients").value;
   const title = document.getElementById("compose-subject").value;
-  const message = document.getElementById("compose-body").value;
+  let message = document.getElementById("compose-body").value;
+  message = message.replace(/\n\r?/g, "<br />");
 
   // Send the email, go to 'sent' section and close compose view
-  Data.sendEmail(email, title, message).then((response) => {
-    console.log(response);
-    loadMailbox("sent");
-    composeView.classList.toggle("show-compose");
-  });
+  Data.sendEmail(email, title, message)
+    .then((response) => {
+      console.log(response);
+      loadMailbox("sent");
+      composeView.classList.toggle("show-compose");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 const loadMailbox = (mailbox) => {
@@ -87,14 +97,12 @@ const detailEmail = (id) => {
       Data.updateRead(email.id);
     }
 
-    console.log(email);
+    // Change email data on detail view
+    document.querySelector("email-detail").emailData = email;
+
     // Show mailbox view and hide email detail view
     emailsView.style.display = "none";
     detailView.style.display = "block";
-
-    // Clear old child element and append a new one
-    detailView.innerHTML = "";
-    detailView.append(component.emailDetailElement(email));
 
     // Activate all menu button
     enableAllMenuBtn();

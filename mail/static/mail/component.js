@@ -13,17 +13,4 @@ const noEmailElement = (mailbox) => {
   return element;
 };
 
-const emailDetailElement = (email) => {
-  const element = document.createElement("div");
-  element.innerHTML = `
-  <div class="detail-header">
-    <h4>${email.subject}</h4>
-    <span>from: ${email.sender}</span>
-    <span>${email.timestamp}</span>
-  </div>
-  `;
-
-  return element;
-};
-
-export { headerElement, noEmailElement, emailDetailElement };
+export { headerElement, noEmailElement };

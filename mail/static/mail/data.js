@@ -3,7 +3,11 @@ class Data {
     return fetch(`/emails/${mailbox}`)
       .then((response) => response.json())
       .then((emails) => {
-        return Promise.resolve(emails);
+        if (emails.error) {
+          return Promise.reject(emails.error);
+        } else {
+          return Promise.resolve(emails);
+        }
       });
   }
 
@@ -11,7 +15,11 @@ class Data {
     return fetch(`/emails/${id}`)
       .then((response) => response.json())
       .then((email) => {
-        return Promise.resolve(email);
+        if (email.error) {
+          return Promise.reject(email.error);
+        } else {
+          return Promise.resolve(email);
+        }
       });
   }
 
@@ -22,7 +30,7 @@ class Data {
         read: true,
       }),
     }).then((result) => {
-      return result;
+      return Promise.resolve(result);
     });
   }
 
@@ -34,12 +42,15 @@ class Data {
         subject: title,
         body: message,
       }),
-    }).then((response) => {
-      if (response.status !== 201) {
-        // TODO
-      }
-      return response.json();
-    });
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.error) {
+          return Promise.reject(result.error);
+        } else {
+          return Promise.resolve(result.message);
+        }
+      });
   }
 }
 
