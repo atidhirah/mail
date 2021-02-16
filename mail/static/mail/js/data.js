@@ -34,6 +34,17 @@ class Data {
     });
   }
 
+  static archiveEmail(id) {
+    return fetch(`/emails/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        archived: true,
+      }),
+    }).then((result) => {
+      return Promise.resolve(result);
+    });
+  }
+
   static sendEmail(email, title, message) {
     return fetch(`/emails`, {
       method: "POST",

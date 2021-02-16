@@ -20,7 +20,7 @@
   overflow: auto;
 }
 
-#emails-container .emails-noemail {
+.emails-noemail {
   width: 100%;
   height: 100%;
   display: flex;
@@ -28,42 +28,67 @@
   align-items: center;
 }
 
-#emails-container .wrapper {
+.summary {
   height: 3rem;
   display: grid;
-  grid-template-columns: 4fr 7fr 1fr;
+  grid-template-columns: 20rem 1fr max-content;
   align-items: center;
   border-bottom: 1px solid rgba(128, 128, 128, 0.2);
 }
 
-#emails-container .wrapper:hover {
-  cursor: pointer;
-  background-color: rgba(128, 128, 128, 0.2) !important;
+.summary .sender {
+  padding-left: 1.5rem;
 }
 
-#emails-container .sender {
-  padding-left: 1rem;
-}
-
-#emails-container .data {
+.summary .data {
   color: grey;
   width: 100%;
   overflow: hidden;
 }
 
-#emails-container .data p {
+.summary .data p {
   width: calc(100%);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-#emails-container .data span {
+.summary .data span {
   color: black;
   font-weight: bold;
 }
 
-#emails-container .time {
+.summary .time {
   text-align: end;
-  padding-right: 0.5rem;
+  padding: 0 1rem;
+}
+
+.summary .archive {
+  display: none;
+}
+
+.archive button {
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin: 0 1rem;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.archive button:hover {
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0.2) !important;
+}
+
+.summary:hover {
+  background-color: rgba(128, 128, 128, 0.2) !important;
+}
+
+.summary:hover .time {
+  display: none;
+}
+
+.summary:hover .archive {
+  display: block;
 }

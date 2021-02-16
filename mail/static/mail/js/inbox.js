@@ -3,25 +3,27 @@ import "./components/emailDetail.js";
 import * as component from "./component.js";
 import Data from "./data.js";
 
+let lastActiveMenu = "";
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Use buttons to toggle between views
+  // *Use buttons to toggle between views
   document.querySelectorAll(".inbox-menu button").forEach((btn) => {
     btn.onclick = () => {
       btn.id === "compose" ? composeEmail() : loadMailbox(btn.id);
     };
   });
 
-  // Send email button event listener
+  // *Send email button event listener
   document.getElementById("compose-send").onclick = (e) => {
     sendEmail();
     e.preventDefault();
   };
 
-  // First time append custom element on detail view
+  // *First time append custom element on detail view
   const emailDetail = document.createElement("email-detail");
   document.getElementById("detail-view").append(emailDetail);
 
-  // By default, load the inbox
+  // *By default, load the inbox
   loadMailbox("inbox");
 });
 
@@ -61,12 +63,12 @@ const loadMailbox = (mailbox) => {
   const emailsHeader = document.getElementById("emails-header");
   const emailsContainer = document.getElementById("emails-container");
 
+  // *Disable the button
+  disableMenuBtn(mailbox);
+
   // *Show mailbox view and hide email detail view
   emailsView.style.display = "block";
   detailView.style.display = "none";
-
-  // *Disable the button
-  disableMenuBtn(mailbox);
 
   // *Show the mailbox name
   emailsHeader.innerHTML = "";
@@ -81,11 +83,21 @@ const loadMailbox = (mailbox) => {
       emails.forEach((email) => {
         const element = document.createElement("email-summary");
         element.emailData = email;
-        element.onclick = () => detailEmail(email.id);
+        element.onclick = (e) => detailEmail(email.id);
+        // *Button to save email into 'Archived'
+        element.querySelector("button").onclick = (e) => {
+          e.stopPropagation();
+          archiveEmail(email.id);
+        };
+
         emailsContainer.append(element);
       });
     }
   });
+};
+
+const archiveEmail = (id) => {
+  Data.archiveEmail(id).then(() => loadMailbox(lastActiveMenu));
 };
 
 const detailEmail = (id) => {
@@ -119,6 +131,7 @@ const disableMenuBtn = (btnId) => {
       btn.classList.remove("active-inbox-button");
     }
   });
+  lastActiveMenu = btnId;
 };
 
 const enableAllMenuBtn = () => {

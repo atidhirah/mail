@@ -11,7 +11,7 @@ class EmailSummary extends HTMLElement {
 
   render() {
     this.innerHTML = `
-    <div class="wrapper ${this._bg}">
+    <div class="summary ${this._bg}">
       <div class="sender">
         <p>${this._sender}</p>
       </div>
@@ -20,6 +20,10 @@ class EmailSummary extends HTMLElement {
       </div>
       <div class="time">
         <p>${this._time}</p>
+      </div>
+      
+      <div class="archive">
+        <button>Archive</button>
       </div>
     </div>
     `;
