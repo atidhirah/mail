@@ -1,0 +1,89 @@
+@import "menu.css";
+@import "compose.css";
+@import "mailbox.css";
+@import "detail.css";
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+p,
+span {
+  padding: 0;
+  margin: 0;
+}
+
+.white {
+  background-color: white;
+}
+
+.grey {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+.login-container,
+.register-container {
+  height: 100vh;
+}
+
+.login-container .card,
+.register-container .card {
+  min-width: 450px;
+}
+
+/* INBOX */
+.inbox-container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: minmax(0, 3.5rem) 1fr;
+  grid-template-areas: "logo header" "nav main";
+}
+
+.inbox-logo {
+  grid-area: logo;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.inbox-header {
+  grid-area: header;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.inbox-menu {
+  grid-area: nav;
+  border-right: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.inbox-content {
+  grid-area: main;
+  position: relative;
+}
+
+.m-flex {
+  height: 100%;
+  display: flex;
+}
+
+.inbox-logo > div {
+  justify-content: center;
+  align-items: center;
+}
+
+.inbox-header > div {
+  justify-content: space-between;
+  align-items: center;
+}

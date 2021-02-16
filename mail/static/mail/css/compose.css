@@ -1,0 +1,47 @@
+#compose-view {
+  width: 550px;
+  height: 500px;
+  position: absolute;
+  bottom: 0;
+  right: 5rem;
+  visibility: hidden;
+  z-index: 100;
+  overflow: hidden;
+  box-shadow: 0 5px 3px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 10px 10px 0 0;
+}
+
+#compose-view .card {
+  height: 100%;
+  border: none;
+}
+
+#compose-view textarea {
+  height: 100%;
+  resize: none;
+}
+
+#compose-view form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#compose-view input {
+  border: none;
+  outline: none;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+#compose-view textarea {
+  border: none;
+  outline: none;
+}
+
+#compose-send {
+  width: fit-content;
+}
+
+.show-compose {
+  visibility: visible !important;
+}

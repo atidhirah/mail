@@ -4,7 +4,7 @@ class EmailSummary extends HTMLElement {
     this._subject = data.subject;
     this._body = data.body.replace(/<br\s*\/?>/gi, " ");
     this._time = data.timestamp;
-    this._bg = data.read ? "bg-light" : "bg-white";
+    this._bg = data.read ? "grey" : "white";
 
     this.render();
   }

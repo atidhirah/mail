@@ -1,0 +1,69 @@
+#emails-view {
+  height: 100%;
+  padding-top: 3rem;
+  overflow-y: auto;
+  position: relative;
+}
+
+#emails-header {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#emails-container {
+  height: 100%;
+  overflow: auto;
+}
+
+#emails-container .emails-noemail {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#emails-container .wrapper {
+  height: 3rem;
+  display: grid;
+  grid-template-columns: 4fr 7fr 1fr;
+  align-items: center;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+#emails-container .wrapper:hover {
+  cursor: pointer;
+  background-color: rgba(128, 128, 128, 0.2) !important;
+}
+
+#emails-container .sender {
+  padding-left: 1rem;
+}
+
+#emails-container .data {
+  color: grey;
+  width: 100%;
+  overflow: hidden;
+}
+
+#emails-container .data p {
+  width: calc(100%);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#emails-container .data span {
+  color: black;
+  font-weight: bold;
+}
+
+#emails-container .time {
+  text-align: end;
+  padding-right: 0.5rem;
+}
