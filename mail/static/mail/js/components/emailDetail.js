@@ -4,12 +4,24 @@ class EmailDetail extends HTMLElement {
   }
 
   set emailData(data) {
+    this._isArchived = data.archived ? "Unarchive" : "Archive";
     this._subject = data.subject;
     this._sender = data.sender;
     this._recipients = data.recipients;
     this._body = data.body;
-    this._time = data.timestamp;
-    this._isArchived = data.archived ? "Unarchive" : "Archive";
+
+    const date = data.timestamp.split(" ");
+    let time = date[date.length - 1].split(":");
+    let hour = parseInt(time[0]);
+
+    // *Change time based on user timezones
+    const offset = new Date().getTimezoneOffset() / 60;
+    offset <= 0 ? (hour -= offset) : (hour = Math.abs(hour + offset));
+    if (hour >= 24) hour -= 24;
+    if (hour < 10) hour = `0${hour}`;
+    time = `${hour}:${time[1]}`;
+
+    this._time = `${date[0]} ${date[1]} ${date[2]}, ${time}`;
 
     this.render();
   }
@@ -42,6 +54,7 @@ class EmailDetail extends HTMLElement {
 
     if (this._isSentMail) {
       this.querySelector("#detail-archive").style.display = "none";
+      this.querySelector("#detail-reply").style.display = "none";
     }
   }
 }
