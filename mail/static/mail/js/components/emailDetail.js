@@ -24,12 +24,19 @@ class EmailDetail extends HTMLElement {
         </div>
         <button id="detail-archive">${this._isArchived}</button>
       </div>
-      <div id="detail-body">
-        <span>from: ${this._sender}</span>
-        <br/>
-        <span>to: ${this._recipients}</span>
-        <span>${this._time}</span>
-        <p>${this._body}</p>
+      <div id="detail-data">
+        <div id="detail-title">
+          <div id="detail-users">
+            <span>from: ${this._sender}</span>
+            <br/>
+            <span>to: ${this._recipients}</span>  
+          </div>
+          <span>${this._time}</span>
+        </div>
+        <div id="detail-body">
+          <p>${this._body}</p>
+        </div>
+        <button id="detail-reply" class="btn btn-primary">Reply</button>
       </div>
     `;
 

@@ -35,7 +35,26 @@
   background-color: rgba(128, 128, 128, 0.2);
 }
 
-#detail-body {
+#detail-data {
   height: 100%;
   overflow: auto;
+}
+
+#detail-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem 1rem;
+}
+
+#detail-body {
+  min-height: 20em;
+  margin: 0 1rem;
+  padding: 1em;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.5em;
+}
+
+#detail-reply {
+  margin: 1rem;
 }

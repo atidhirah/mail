@@ -23,14 +23,23 @@ document.addEventListener("DOMContentLoaded", () => {
   loadMailbox("inbox");
 });
 
-const composeEmail = () => {
+const composeEmail = (recipient = "", subject = "", body = "") => {
   // Show compose view
   document.getElementById("compose-view").classList.toggle("show-compose");
 
-  // Clear out composition fields
-  document.getElementById("compose-recipients").value = "";
-  document.getElementById("compose-subject").value = "";
-  document.getElementById("compose-body").value = "";
+  // Set composition fields
+  const recipientsForm = document.getElementById("compose-recipients");
+  const subjectForm = document.getElementById("compose-subject");
+  const bodyForm = document.getElementById("compose-body");
+
+  recipientsForm.disabled = recipient === "" ? false : true;
+  recipientsForm.value = recipient;
+
+  subjectForm.disabled = subject === "" ? false : true;
+  if (subject !== "") subject = `Re: ${subject}`;
+  subjectForm.value = subject;
+
+  bodyForm.value = body;
 };
 
 const sendEmail = () => {
@@ -124,6 +133,9 @@ const detailEmail = (id) => {
       loadMailbox(lastActiveMenu);
     document.getElementById("detail-archive").onclick = () =>
       archiveEmail(email.id, email.archived);
+    document.getElementById("detail-reply").onclick = () => {
+      composeEmail(email.sender, email.subject, email.body);
+    };
 
     // *Show mailbox view and hide email detail view
     emailsView.style.display = "none";
