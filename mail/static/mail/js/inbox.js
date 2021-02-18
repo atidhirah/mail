@@ -19,10 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
   };
 
-  // *First time append custom element on detail view
-  const emailDetail = document.createElement("email-detail");
-  document.getElementById("detail-view").append(emailDetail);
-
   // *By default, load the inbox
   loadMailbox("inbox");
 });
@@ -82,13 +78,16 @@ const loadMailbox = (mailbox) => {
     } else {
       emails.forEach((email) => {
         const element = document.createElement("email-summary");
+        element.emailType = mailbox;
         element.emailData = email;
         element.onclick = (e) => detailEmail(email.id);
         // *Button to save email into 'Archived'
-        element.querySelector("button").onclick = (e) => {
-          e.stopPropagation();
-          archiveEmail(email.id);
-        };
+        if (mailbox !== "sent") {
+          element.querySelector("button").onclick = (e) => {
+            e.stopPropagation();
+            archiveEmail(email.id, email.archived);
+          };
+        }
 
         emailsContainer.append(element);
       });
@@ -96,27 +95,41 @@ const loadMailbox = (mailbox) => {
   });
 };
 
-const archiveEmail = (id) => {
-  Data.archiveEmail(id).then(() => loadMailbox(lastActiveMenu));
+const archiveEmail = (id, status) => {
+  // *Archive or unarchive email depend on status
+  Data.archiveEmail(id, !status).then(() => loadMailbox("inbox"));
 };
 
 const detailEmail = (id) => {
   const emailsView = document.getElementById("emails-view");
   const detailView = document.getElementById("detail-view");
 
+  // *Remove last email data
+  detailView.innerHTML = "";
+
   Data.getEmail(id).then((email) => {
     if (email.read === false) {
       Data.updateRead(email.id);
     }
 
-    // Change email data on detail view
-    document.querySelector("email-detail").emailData = email;
+    // *Append custom element on detail view
+    const emailDetail = document.createElement("email-detail");
+    emailDetail.emailType = lastActiveMenu;
+    emailDetail.emailData = email;
 
-    // Show mailbox view and hide email detail view
+    document.getElementById("detail-view").append(emailDetail);
+
+    // *Detail view buttons listener
+    document.getElementById("detail-back").onclick = () =>
+      loadMailbox(lastActiveMenu);
+    document.getElementById("detail-archive").onclick = () =>
+      archiveEmail(email.id, email.archived);
+
+    // *Show mailbox view and hide email detail view
     emailsView.style.display = "none";
     detailView.style.display = "block";
 
-    // Activate all menu button
+    // *Activate all menu button
     enableAllMenuBtn();
   });
 };

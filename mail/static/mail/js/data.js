@@ -34,11 +34,11 @@ class Data {
     });
   }
 
-  static archiveEmail(id) {
+  static archiveEmail(id, status) {
     return fetch(`/emails/${id}`, {
       method: "PUT",
       body: JSON.stringify({
-        archived: true,
+        archived: status,
       }),
     }).then((result) => {
       return Promise.resolve(result);

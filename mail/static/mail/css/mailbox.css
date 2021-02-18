@@ -63,10 +63,6 @@
   padding: 0 1rem;
 }
 
-.summary .archive {
-  display: none;
-}
-
 .archive button {
   outline: none;
   border: 1px solid gray;
@@ -82,13 +78,6 @@
 }
 
 .summary:hover {
+  cursor: pointer;
   background-color: rgba(128, 128, 128, 0.2) !important;
-}
-
-.summary:hover .time {
-  display: none;
-}
-
-.summary:hover .archive {
-  display: block;
 }
