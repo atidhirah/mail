@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   });
 
+  // *Button to close compose view
+  document.getElementById("compose-close").onclick = () => {
+    document.getElementById("compose-view").classList.toggle("show-compose");
+  };
+
   // *Send email button event listener
   document.getElementById("compose-send").onclick = (e) => {
     sendEmail();
@@ -23,23 +28,32 @@ document.addEventListener("DOMContentLoaded", () => {
   loadMailbox("inbox");
 });
 
-const composeEmail = (recipient = "", subject = "", body = "") => {
+const composeEmail = (email = null, time = null) => {
+  const recipientsForm = document.getElementById("compose-recipients");
+  const subjectForm = document.getElementById("compose-subject");
+  const bodyForm = document.getElementById("compose-body");
+  const preBodyForm = document.getElementById("compose-prebody");
+
   // Show compose view
   document.getElementById("compose-view").classList.toggle("show-compose");
 
   // Set composition fields
-  const recipientsForm = document.getElementById("compose-recipients");
-  const subjectForm = document.getElementById("compose-subject");
-  const bodyForm = document.getElementById("compose-body");
+  if (email === null) {
+    recipientsForm.value = "";
+    subjectForm.value = "";
+    preBodyForm.innerHTML = "";
+  } else {
+    recipientsForm.disabled = true;
+    subjectForm.disabled = true;
 
-  recipientsForm.disabled = recipient === "" ? false : true;
-  recipientsForm.value = recipient;
-
-  subjectForm.disabled = subject === "" ? false : true;
-  if (subject !== "") subject = `Re: ${subject}`;
-  subjectForm.value = subject;
-
-  bodyForm.value = body;
+    recipientsForm.value = email.sender;
+    subjectForm.value = `Re: ${email.subject}`;
+    preBodyForm.innerHTML = `
+    <span>On ${time} ${email.sender} wrote:</span>
+    <p>${email.body}</p>
+    `;
+  }
+  bodyForm.value = "";
 };
 
 const sendEmail = () => {
@@ -131,10 +145,14 @@ const detailEmail = (id) => {
     // *Detail view buttons listener
     document.getElementById("detail-back").onclick = () =>
       loadMailbox(lastActiveMenu);
+
     document.getElementById("detail-archive").onclick = () =>
       archiveEmail(email.id, email.archived);
+
     document.getElementById("detail-reply").onclick = () => {
-      composeEmail(email.sender, email.subject, email.body);
+      // *Get timestamp based on timezone
+      const time = emailDetail.emailTime;
+      composeEmail(email, time);
     };
 
     // *Show mailbox view and hide email detail view

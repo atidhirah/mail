@@ -25,6 +25,12 @@ class EmailDetail extends HTMLElement {
 
     this.render();
   }
+
+  get emailTime() {
+    // *Return timestamp based on timezone
+    return this._time;
+  }
+
   render() {
     this.innerHTML = `
       <div id="detail-header">
@@ -34,7 +40,9 @@ class EmailDetail extends HTMLElement {
           </button>
           <h4>${this._subject}</h4>
         </div>
-        <button id="detail-archive">${this._isArchived}</button>
+        <button id="detail-archive">
+          ${this._isArchived}
+        </button>
       </div>
       <div id="detail-data">
         <div id="detail-title">

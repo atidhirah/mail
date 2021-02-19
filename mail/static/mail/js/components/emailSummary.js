@@ -14,12 +14,13 @@ class EmailSummary extends HTMLElement {
     const date = (new Date() + " ").split(" ");
     const today = date.slice(1, 4).toString();
     const dataDate = data.timestamp.split(" ");
+    let hour;
 
     if (dataDate.slice(0, 3).toString() === today) {
       // *Change time based on user timezones
       const offset = new Date().getTimezoneOffset() / 60;
       const time = dataDate[3].split(":");
-      let hour = parseInt(time[0]);
+      hour = parseInt(time[0]);
       offset <= 0 ? (hour -= offset) : (hour = Math.abs(hour + offset));
       if (hour >= 24) hour -= 24;
       if (hour < 10) hour = `0${hour}`;
